@@ -1,6 +1,6 @@
-# syno_downlaodstation
+# Synology Download Station Client
 
-A new Flutter project.
+A Development-Ongoing Flutter project.
 
 ## Getting Started
 
