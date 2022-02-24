@@ -1,6 +1,6 @@
 {
-    "name": "syno_downlaodstation",
-    "short_name": "syno_downlaodstation",
+    "name": "DS Client",
+    "short_name": "DS Client",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
