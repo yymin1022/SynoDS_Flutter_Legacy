@@ -24,6 +24,7 @@ class DSApp extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                   Container(child: const StatusView()),
+                  Divider(thickness: 1, height: 1, color: Color(0xFFEEEEEE)),
                   Container(child: const TaskView())
                 ]))));
   }
