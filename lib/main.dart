@@ -88,10 +88,14 @@ class TaskView extends StatefulWidget {
 class _TaskViewState extends State<TaskView> {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        TaskViewItem(new TaskData("Test Task", "TaskID", 12.5))
-      ],
+    return Container(
+      width: 400,
+      
+      child: Column(
+        children: <Widget>[
+          TaskViewItem(new TaskData("Test Task", "TaskID", 12.5))
+        ],
+      )
     );
   }
 }
