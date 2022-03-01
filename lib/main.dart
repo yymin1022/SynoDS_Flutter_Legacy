@@ -69,7 +69,7 @@ class _StatusViewState extends State<StatusView> {
 
                 children: <Widget>[
                   Text(
-                    "$_download"
+                    text: "$_download",
                     style: TextStyle(fontSize: 20)
                   ),
                   Text("KB/s")
@@ -88,7 +88,7 @@ class _StatusViewState extends State<StatusView> {
 
                 children: <Widget>[
                   Text(
-                    "$_upload"
+                    text: "$_upload",
                     style: TextStyle(fontSize: 20)
                   ),
                   Text("KB/s")
