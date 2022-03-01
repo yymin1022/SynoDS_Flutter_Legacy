@@ -23,7 +23,8 @@ class DSApp extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const StatusView()
+              StatusView(),
+              TaskView()
             ]
           )
         )
@@ -47,6 +48,7 @@ class _StatusViewState extends State<StatusView> {
   Widget build(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
         Row(
           children: <Widget>[
@@ -87,8 +89,9 @@ class _TaskViewState extends State<TaskView> {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          
+          Text("$_taskTitle")
         ],
       )
     );
