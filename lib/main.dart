@@ -58,7 +58,7 @@ class _StatusViewState extends State<StatusView> {
 
           children: <Widget>[
             Container(
-              color: Color(#EEEEEE),
+              color: Color(0xFFEEEEEE),
               height: 100,
               width: 160,
 
@@ -73,7 +73,7 @@ class _StatusViewState extends State<StatusView> {
               )
             ),
             Container(
-              color: Color(#EEEEEE),
+              color: Color(0xFFEEEEEE),
               height: 100,
               width: 160,
 
