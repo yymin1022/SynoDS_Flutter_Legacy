@@ -20,20 +20,22 @@ class DSApp extends StatelessWidget {
         ),
         body: Center(
           child: Column(
-            Row(
-              children: [
-                Text("Upload DATA"),
-                Text("Download DATA")
-              ]
-            ),
-            Column(
-              children: [
-                Text("Task 1"),
-                Text("Task 2"),
-                Text("Task 3"),
-                Text("Task 4")
-              ]
-            )
+            children: [
+              Row(
+                children: [
+                  Text("Upload DATA"),
+                  Text("Download DATA")
+                ]
+              ),
+              Column(
+                children: [
+                  Text("Task 1"),
+                  Text("Task 2"),
+                  Text("Task 3"),
+                  Text("Task 4")
+                ]
+              )
+            ]
           )
         )
       )
