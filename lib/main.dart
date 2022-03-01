@@ -58,7 +58,7 @@ class _StatusViewState extends State<StatusView> {
 
           children: <Widget>[
             Container(
-              color: Colors.lightgrey,
+              color: Color(#EEEEEE),
               height: 100,
               width: 160,
 
@@ -73,14 +73,14 @@ class _StatusViewState extends State<StatusView> {
               )
             ),
             Container(
-              color: Colors.lightgrey,
+              color: Color(#EEEEEE),
               height: 100,
               width: 160,
 
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
-                
+
                 children: <Widget>[
                   Text("$_upload"),
                   Text("KB/s")
