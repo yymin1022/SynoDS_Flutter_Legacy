@@ -56,25 +56,21 @@ class _StatusViewState extends State<StatusView> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            Container(
-              height: 50,
-              width: 80,
-              child: Column(
-                children: [
-                  Text("$_download"),
-                  Text("KB/s")
-                ]
-              )
+            Column(
+              height: 100,
+              width: 160,
+              children: [
+                Text("$_download"),
+                Text("KB/s")
+              ]
             ),
-            Container(
-              height: 50,
-              width: 80,
-              child: Column(
-                children: [
-                  Text("$_upload"),
-                  Text("KB/s")
-                ]
-              )
+            Column(
+              height: 100,
+              width: 160,
+              children: [
+                Text("$_upload"),
+                Text("KB/s")
+              ]
             )
           ]
         )
