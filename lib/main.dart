@@ -15,13 +15,16 @@ class DSApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: Scaffold(
-          appBar: AppBar(
-            title: Text("SynoDS"),
-          ),
-          body: Center(
-            child: Column(children: [
-              const StatusItem()
-            ]
+        appBar: AppBar(
+          title: Text("SynoDS"),
+        ),
+        body: Center(
+          child: Column(
+            children: Center(
+              children: [
+                const StatusView()
+              ]
+            )
           )
         )
       )
@@ -29,14 +32,14 @@ class DSApp extends StatelessWidget {
   }
 }
 
-class StatusItem extends StatefulWidget {
-  const StatusItem({Key? key}) : super(key: key);
+class StatusView extends StatefulWidget {
+  const StatusView({Key? key}) : super(key: key);
 
   @override
-  State<StatusItem> createState() => _StatusItemState();
+  State<StatusView> createState() => _StatusViewState();
 }
 
-class _StatusItemState extends State<StatusItem> {
+class _StatusViewState extends State<StatusView> {
   int _download = 0;
   int _upload = 0;
 
@@ -62,6 +65,32 @@ class _StatusItemState extends State<StatusItem> {
               )
             ]
           )
+        ],
+      )
+    );
+  }
+}
+
+class TaskView extends StatefulWidget {
+  const TaskView({Key? key}) : super(key: key);
+
+  @override
+  State<TaskView> createState() => _TaskViewState();
+}
+
+class _TaskViewState extends State<TaskView> {
+  var _taskDownload = "12.5";
+  var _taskPercentage = "15";
+  var _taskSize = "20.0";
+  var _taskTitle = "Test Task";
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          
         ],
       )
     );
