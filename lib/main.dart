@@ -19,7 +19,7 @@ class DSApp extends StatelessWidget {
           title: Text("SynoDS"),
         ),
         body: SafeArea(
-          children: Column(
+          child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const StatusView()
