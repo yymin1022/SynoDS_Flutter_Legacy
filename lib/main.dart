@@ -72,13 +72,6 @@ class _StatusViewState extends State<StatusView> {
                   height: 100,
                   width: 160,
                   margin: EdgeInsets.fromLTRB(10, 20, 20, 20),
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                        color: Color(0xFFDDDDDD),
-                        width: 2,
-                    ),
-                    borderRadius: BorderRadius.circular(10)
-                  ),
                   child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
