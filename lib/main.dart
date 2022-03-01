@@ -93,7 +93,10 @@ class _TaskViewState extends State<TaskView> {
       
       child: Column(
         children: <Widget>[
-          TaskViewItem(new TaskData("Test Task", "TaskID", 12.5))
+          TaskViewItem(new TaskData("Test Task 1", "TaskID", 12.5)),
+          TaskViewItem(new TaskData("Test Task 2", "TaskID", 22.3)),
+          TaskViewItem(new TaskData("Test Task 3", "TaskID", 100)),
+          TaskViewItem(new TaskData("Test Task 4", "TaskID", 0.5)),
         ],
       )
     );
