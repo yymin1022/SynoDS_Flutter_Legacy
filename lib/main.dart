@@ -20,11 +20,9 @@ class DSApp extends StatelessWidget {
         ),
         body: Center(
           child: Column(
-            children: Center(
-              children: [
-                const StatusView()
-              ]
-            )
+            children: [
+              const StatusView()
+            ]
           )
         )
       )
@@ -47,7 +45,6 @@ class _StatusViewState extends State<StatusView> {
   Widget build(BuildContext context) {
     return Center(
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Row(
             children: <Widget>[
