@@ -10,11 +10,33 @@ class DSApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: "DS Client",
+      title: "SynoDS",
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const DSHomePage(title: "Synology DownloadStation Client"),
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text("SynoDS"),
+        ),
+        body: Center(
+          child: Column(
+            Row(
+              children: [
+                Text("Upload DATA"),
+                Text("Download DATA")
+              ]
+            ),
+            Column(
+              children: [
+                Text("Task 1"),
+                Text("Task 2"),
+                Text("Task 3"),
+                Text("Task 4")
+              ]
+            )
+          )
+        )
+      )
     );
   }
 }
