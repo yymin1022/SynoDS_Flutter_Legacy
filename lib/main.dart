@@ -64,7 +64,7 @@ class _StatusViewState extends State<StatusView> {
               margin: EdgeInsets.fromLTRB(20, 20, 10, 20),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10)
-              )
+              ),
 
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -83,7 +83,7 @@ class _StatusViewState extends State<StatusView> {
               margin: EdgeInsets.fromLTRB(10, 20, 20, 20),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10)
-              )
+              ),
 
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
