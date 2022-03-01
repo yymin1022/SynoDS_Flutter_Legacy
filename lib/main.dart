@@ -53,6 +53,8 @@ class _StatusViewState extends State<StatusView> {
     return Column(
       children: <Widget>[
         Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Column(
               children: [
