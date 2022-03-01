@@ -93,15 +93,10 @@ class _TaskViewState extends State<TaskView> {
       
       child: Column(
         children: <Widget>[
-          Divider(thickness: 1, height: 1, color: Colors.grey),
           TaskViewItem(new TaskData("Test Task 1", "TaskID", 12.5)),
-          Divider(thickness: 1, height: 1, color: Colors.grey),
           TaskViewItem(new TaskData("Test Task 2", "TaskID", 22.3)),
-          Divider(thickness: 1, height: 1, color: Colors.grey),
           TaskViewItem(new TaskData("Test Task 3", "TaskID", 100)),
-          Divider(thickness: 1, height: 1, color: Colors.grey),
           TaskViewItem(new TaskData("Test Task 4", "TaskID", 0.5)),
-          Divider(thickness: 1, height: 1, color: Colors.grey),
         ],
       )
     );
