@@ -103,7 +103,7 @@ class _TaskViewState extends State<TaskView> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 400,
+      width: 350,
       
       child: Column(
         children: <Widget>[
