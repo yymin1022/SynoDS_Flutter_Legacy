@@ -20,7 +20,7 @@ class DSApp extends StatelessWidget {
         ),
         body: SafeArea(
           children: Column(
-            mainAxisAlignment: MainAxisAlignment.center
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const StatusView()
             ]
