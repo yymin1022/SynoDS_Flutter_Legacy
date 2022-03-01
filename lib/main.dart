@@ -62,16 +62,16 @@ class _StatusViewState extends State<StatusView> {
               height: 100,
               width: 160,
               margin: EdgeInsets.fromLTRB(20, 20, 10, 20),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(50)
-              ),
 
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
 
                 children: <Widget>[
-                  Text("$_download"),
+                  Text(
+                    "$_download"
+                    style: TextStyle(fontSize: 20)
+                  ),
                   Text("KB/s")
                 ]
               )
@@ -81,16 +81,16 @@ class _StatusViewState extends State<StatusView> {
               height: 100,
               width: 160,
               margin: EdgeInsets.fromLTRB(10, 20, 20, 20),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(50)
-              ),
 
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
 
                 children: <Widget>[
-                  Text("$_upload"),
+                  Text(
+                    "$_upload"
+                    style: TextStyle(fontSize: 20)
+                  ),
                   Text("KB/s")
                 ]
               )
