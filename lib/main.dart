@@ -19,13 +19,15 @@ class DSApp extends StatelessWidget {
           title: Text("SynoDS"),
         ),
         body: SafeArea(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              StatusView(),
-              TaskView()
-            ]
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const StatusView(),
+                const TaskView()
+              ]
+            )
           )
         )
       )
@@ -51,6 +53,8 @@ class _StatusViewState extends State<StatusView> {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
         Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Column(
               children: [
@@ -86,14 +90,12 @@ class _TaskViewState extends State<TaskView> {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          Text("$_taskTitle")
-        ],
-      )
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: <Widget>[
+        Text("$_taskTitle")
+      ],
     );
   }
 }
