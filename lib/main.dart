@@ -90,7 +90,7 @@ class _TaskViewState extends State<TaskView> {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        TaskViewItem(new Task("Test Task", "TaskID", 12.5))
+        TaskViewItem(new TaskData("Test Task", "TaskID", 12.5))
       ],
     );
   }
