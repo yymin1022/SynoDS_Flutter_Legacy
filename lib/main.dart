@@ -55,13 +55,17 @@ class _StatusViewState extends State<StatusView> {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
+
           children: <Widget>[
             Container(
-              color: Colors.grey,
+              color: Colors.lightgrey,
               height: 100,
               width: 160,
 
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+
                 children: <Widget>[
                   Text("$_download"),
                   Text("KB/s")
@@ -69,11 +73,14 @@ class _StatusViewState extends State<StatusView> {
               )
             ),
             Container(
-              color: Colors.grey,
+              color: Colors.lightgrey,
               height: 100,
               width: 160,
-              
+
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                
                 children: <Widget>[
                   Text("$_upload"),
                   Text("KB/s")
