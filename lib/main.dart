@@ -67,7 +67,7 @@ class _StatusViewState extends State<StatusView> {
                         Text("$_download", style: TextStyle(fontSize: 35)),
                         Text("KB/s", style: TextStyle(fontSize: 15))
                       ])),
-              Container(\
+              Container(
                   height: 100,
                   width: 160,
                   margin: EdgeInsets.fromLTRB(10, 20, 20, 20),
