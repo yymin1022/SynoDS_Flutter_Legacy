@@ -18,8 +18,9 @@ class DSApp extends StatelessWidget {
         appBar: AppBar(
           title: Text("SynoDS"),
         ),
-        body: Center(
-          child: Column(
+        body: SafeArea(
+          children: Column(
+            mainAxisAlignment: MainAxisAlignment.center
             children: [
               const StatusView()
             ]
@@ -43,27 +44,26 @@ class _StatusViewState extends State<StatusView> {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        children: <Widget>[
-          Row(
-            children: <Widget>[
-              Column(
-                children: [
-                  Text("$_download"),
-                  Text("KB/s")
-                ]
-              ),
-              Column(
-                children: [
-                  Text("$_upload"),
-                  Text("KB/s")
-                ]
-              )
-            ]
-          )
-        ],
-      )
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Row(
+          children: <Widget>[
+            Column(
+              children: [
+                Text("$_download"),
+                Text("KB/s")
+              ]
+            ),
+            Column(
+              children: [
+                Text("$_upload"),
+                Text("KB/s")
+              ]
+            )
+          ]
+        )
+      ],
     );
   }
 }
