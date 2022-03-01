@@ -20,10 +20,12 @@ class DSApp extends StatelessWidget {
         ),
         body: SafeArea(
           child: Center(
-            children: [
-              const StatusView(),
-              const TaskView()
-            ]
+            child: Container(
+              children: [
+                const StatusView(),
+                const TaskView()
+              ]
+            )
           )
         )
       )
