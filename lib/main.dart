@@ -61,6 +61,7 @@ class _StatusViewState extends State<StatusView> {
               color: Color(0xFFDDDDDD),
               height: 100,
               width: 160,
+              margin: EdgeInsects.fromLTRB(20, 20, 10, 20),
 
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -76,6 +77,7 @@ class _StatusViewState extends State<StatusView> {
               color: Color(0xFFDDDDDD),
               height: 100,
               width: 160,
+              margin: EdgeInsects.fromLTRB(10, 20, 20, 20),
 
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
