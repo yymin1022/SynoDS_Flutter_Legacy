@@ -10,19 +10,22 @@ class DSApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: "SynoDS",
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
-        home: Scaffold(
-            appBar: AppBar(
-              title: Text("SynoDS"),
-            ),
-            body: Center(
-              child: Column(children: [
-                const StatusItem()
-              ])
-            ]))));
+      title: "SynoDS",
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: Scaffold(
+          appBar: AppBar(
+            title: Text("SynoDS"),
+          ),
+          body: Center(
+            child: Column(children: [
+              const StatusItem()
+            ])
+          ]
+        )
+      )
+    );
   }
 }
 
