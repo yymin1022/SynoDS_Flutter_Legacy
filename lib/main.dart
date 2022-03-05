@@ -55,6 +55,9 @@ class _StatusViewState extends State<StatusView>{
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Card(
+              height: 100,
+              width: 160,
+              margin: EdgeInsets.fromLTRB(20, 20, 10, 20),
               shape: RoundedRectangleBorder(  //모서리를 둥글게 하기 위해 사용
                 borderRadius: BorderRadius.circular(16.0)),
               elevation: 4.0,
@@ -72,6 +75,9 @@ class _StatusViewState extends State<StatusView>{
               )
             ),
             Card(
+              height: 100,
+              width: 160,
+              margin: EdgeInsets.fromLTRB(20, 20, 10, 20),
               shape: RoundedRectangleBorder(  //모서리를 둥글게 하기 위해 사용
                 borderRadius: BorderRadius.circular(16.0)),
               elevation: 4.0,
