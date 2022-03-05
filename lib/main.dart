@@ -17,6 +17,18 @@ class DSApp extends StatelessWidget {
         home: Scaffold(
             appBar: AppBar(
               title: Text("SynoDS"),
+              actions: <Widget>[
+                IconButton(
+                  icon: Icon(Icons.photo_album),
+                  tooltip: "Settings",
+                  onPressed: () => {},
+                ),
+                IconButton(
+                  icon: Icon(Icons.info),
+                  tooltip: "Info",
+                  onPressed: () => {},
+                )
+              ]
             ),
             body: SafeArea(
                 child: Column(
