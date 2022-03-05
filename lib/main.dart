@@ -54,43 +54,40 @@ class _StatusViewState extends State<StatusView>{
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            Container(
-              height: 100,
-              width: 160,
-              margin: EdgeInsets.fromLTRB(20, 20, 10, 20),
-              decoration: BoxDecoration(
-                border: Border.all(
-                  color: Color(0xFFDDDDDD),
-                  width: 2),
-                borderRadius: BorderRadius.circular(10)),
+            Card(
+              shape: RoundedRectangleBorder(  //모서리를 둥글게 하기 위해 사용
+                borderRadius: BorderRadius.circular(16.0)),
+              elevation: 4.0,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  Text("$_download", style: TextStyle(fontSize: 35)),
-                  Text("KB/s", style: TextStyle(fontSize: 15))
+                  Text(
+                    "$_download",
+                    style: TextStyle(fontSize: 35)),
+                  Text(
+                    "KB/s",
+                    style: TextStyle(fontSize: 15))
                 ]
               )
             ),
-            Container(
-              height: 100,
-              width: 160,
-              margin: EdgeInsets.fromLTRB(10, 20, 20, 20),
-              decoration: BoxDecoration(
-                border: Border.all(
-                  color: Color(0xFFDDDDDD),
-                  width: 2),
-                borderRadius: BorderRadius.circular(10)
-              ),
+            Card(
+              shape: RoundedRectangleBorder(  //모서리를 둥글게 하기 위해 사용
+                borderRadius: BorderRadius.circular(16.0)),
+              elevation: 4.0,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  Text("$_upload", style: TextStyle(fontSize: 35)),
-                  Text("KB/s", style: TextStyle(fontSize: 15))
+                  Text(
+                    "$_upload",
+                    style: TextStyle(fontSize: 35)),
+                  Text(
+                    "KB/s",
+                    style: TextStyle(fontSize: 15))
                 ]
               )
-            )
+            ),
           ]
         )
       ],
@@ -137,16 +134,10 @@ class TaskViewItem extends StatelessWidget{
 
   @override
   Widget build(BuildContext context){
-    return Card(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16.0),
-      ),
-      elevation: 4.0,
-      child: Row(
-        title: Text(_task.title),
-        subtitle: Text("${_task.percentage}%"),
-        trailing: Text("${_task.taskID}")
-      )
-    )
+    return ListTile(
+      title: Text(_task.title),
+      subtitle: Text("${_task.percentage}%"),
+      trailing: Text("${_task.taskID}")
+    );
   }
 }
