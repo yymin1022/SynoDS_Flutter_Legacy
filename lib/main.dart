@@ -1,106 +1,113 @@
 import "package:flutter/material.dart";
 
-void main() {
+void main(){
   runApp(const DSApp());
 }
 
-class DSApp extends StatelessWidget {
+class DSApp extends StatelessWidget{
   const DSApp({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context){
     return MaterialApp(
-        title: "SynoDS",
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
-        home: Scaffold(
-            appBar: AppBar(
-              title: Text("SynoDS"),
-            ),
-            body: SafeArea(
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                  Container(child: const StatusView()),
-                  Divider(thickness: 1, height: 1, color: Color(0xFFEEEEEE)),
-                  Container(child: const TaskView())
-                ]))));
+      title: "SynoDS",
+      theme: ThemeData(
+        primarySwatch: Colors.blue),
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text("SynoDS")),
+        body: SafeArea(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              StatusView(),
+              Divider(
+                thickness: 1,
+                height: 1,
+                color: Color(0xFFEEEEEE)),
+              TaskView()
+            ]
+          )
+        )
+      )
+    );
   }
 }
 
-class StatusView extends StatefulWidget {
+class StatusView extends StatefulWidget{
   const StatusView({Key? key}) : super(key: key);
 
   @override
   State<StatusView> createState() => _StatusViewState();
 }
 
-class _StatusViewState extends State<StatusView> {
+class _StatusViewState extends State<StatusView>{
   int _download = 0;
   int _upload = 0;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context){
     return Column(
       children: <Widget>[
         Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Container(
-                  height: 100,
-                  width: 160,
-                  margin: EdgeInsets.fromLTRB(20, 20, 10, 20),
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                        color: Color(0xFFDDDDDD),
-                        width: 2,
-                    ),
-                    borderRadius: BorderRadius.circular(10)
-                  ),
-                  child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Text("$_download", style: TextStyle(fontSize: 35)),
-                        Text("KB/s", style: TextStyle(fontSize: 15))
-                      ])),
-              Container(
-                  height: 100,
-                  width: 160,
-                  margin: EdgeInsets.fromLTRB(10, 20, 20, 20),
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                        color: Color(0xFFDDDDDD),
-                        width: 2,
-                    ),
-                    borderRadius: BorderRadius.circular(10)
-                  ),
-                  child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Text("$_upload", style: TextStyle(fontSize: 35)),
-                        Text("KB/s", style: TextStyle(fontSize: 15))
-                      ]))
-            ])
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Container(
+              height: 100,
+              width: 160,
+              margin: EdgeInsets.fromLTRB(20, 20, 10, 20),
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: Color(0xFFDDDDDD),
+                  width: 2),
+                borderRadius: BorderRadius.circular(10)),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Text("$_download", style: TextStyle(fontSize: 35)),
+                  Text("KB/s", style: TextStyle(fontSize: 15))
+                ]
+              )
+            ),
+            Container(
+              height: 100,
+              width: 160,
+              margin: EdgeInsets.fromLTRB(10, 20, 20, 20),
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: Color(0xFFDDDDDD),
+                  width: 2),
+                borderRadius: BorderRadius.circular(10)
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Text("$_upload", style: TextStyle(fontSize: 35)),
+                  Text("KB/s", style: TextStyle(fontSize: 15))
+                ]
+              )
+            )
+          ]
+        )
       ],
     );
   }
 }
 
-class TaskView extends StatefulWidget {
+class TaskView extends StatefulWidget{
   const TaskView({Key? key}) : super(key: key);
 
   @override
   State<TaskView> createState() => _TaskViewState();
 }
 
-class _TaskViewState extends State<TaskView> {
+class _TaskViewState extends State<TaskView>{
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context){
     return Container(
       width: 350,
       
@@ -116,7 +123,7 @@ class _TaskViewState extends State<TaskView> {
   }
 }
 
-class TaskData {
+class TaskData{
   double percentage;
   String title;
   String taskID;
@@ -124,15 +131,22 @@ class TaskData {
   TaskData(this.title, this.taskID, this.percentage);
 }
 
-class TaskViewItem extends StatelessWidget {
+class TaskViewItem extends StatelessWidget{
   TaskViewItem(this._task);
   final TaskData _task;
 
   @override
-  Widget build(BuildContext context) {
-    return ListTile(
+  Widget build(BuildContext context){
+    return Card(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16.0),
+      ),
+      elevation: 4.0,
+      child: Row(
         title: Text(_task.title),
         subtitle: Text("${_task.percentage}%"),
-        trailing: Text("${_task.taskID}"));
+        trailing: Text("${_task.taskID}")
+      )
+    )
   }
 }
