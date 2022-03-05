@@ -19,7 +19,7 @@ class DSApp extends StatelessWidget {
               title: Text("SynoDS"),
               actions: <Widget>[
                 IconButton(
-                  icon: Icon(Icons.photo_album),
+                  icon: Icon(Icons.settings),
                   tooltip: "Settings",
                   onPressed: () => {},
                 ),
