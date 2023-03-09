@@ -52,4 +52,9 @@ class DownloadTaskFile {
   String? _sizeDownloaded;
 
   DownloadTaskFile(this._filename, this._priority, this._size, this._sizeDownloaded);
+
+  getFilename(){return _filename;}
+  getPriority(){return _priority;}
+  getSize(){return _size;}
+  getSizeDownloaded(){return _sizeDownloaded;}
 }
