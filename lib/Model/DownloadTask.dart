@@ -10,7 +10,7 @@ class DownloadTask {
   DownloadTaskDetail? _detail;
   List<DownloadTaskFile> _files = [];
 
-  DownloadTask(this._id, this._type, this._username, this._title, this._size, this._status, this._status_extra);
+  DownloadTask(this._id, this._size, this._status, this._status_extra, this._title, this._type, this._username);
 
   getId(){return _id;}
   getType(){return _type;}
