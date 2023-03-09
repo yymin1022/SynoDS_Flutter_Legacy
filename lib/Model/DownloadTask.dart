@@ -23,6 +23,8 @@ class DownloadTaskDetail {
   String? _destination;
   String? _priority;
   String? _uri;
+
+  DownloadTaskDetail(this._connectedLeechers, this._connectedSedders, this._totalPeers, this._create_time, this._destination, this._priority, this._uri);
 }
 
 class DownloadTaskFile {
