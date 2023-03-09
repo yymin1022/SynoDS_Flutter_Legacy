@@ -1,11 +1,11 @@
 class DownloadTask {
-  String? _id;
-  String? _size;
-  String? _status;
-  String? _status_extra;
-  String? _title;
-  String? _type;
-  String? _username;
+  String _id;
+  String _size;
+  String _status;
+  String _status_extra;
+  String _title;
+  String _type;
+  String _username;
 
   DownloadTaskDetail? _detail;
   List<DownloadTaskFile> _files = [];
@@ -27,13 +27,13 @@ class DownloadTask {
 }
 
 class DownloadTaskDetail {
-  int? _connectedLeechers;
-  int? _connectedSeeders;
-  int? _totalPeers;
-  String? _createTime;
-  String? _destination;
-  String? _priority;
-  String? _uri;
+  int _connectedLeechers;
+  int _connectedSeeders;
+  int _totalPeers;
+  String _createTime;
+  String _destination;
+  String _priority;
+  String _uri;
 
   DownloadTaskDetail(this._connectedLeechers, this._connectedSeeders, this._totalPeers, this._createTime, this._destination, this._priority, this._uri);
 
@@ -47,10 +47,10 @@ class DownloadTaskDetail {
 }
 
 class DownloadTaskFile {
-  String? _filename;
-  String? _priority;
-  String? _size;
-  String? _sizeDownloaded;
+  String _filename;
+  String _priority;
+  String _size;
+  String _sizeDownloaded;
 
   DownloadTaskFile(this._filename, this._priority, this._size, this._sizeDownloaded);
 
