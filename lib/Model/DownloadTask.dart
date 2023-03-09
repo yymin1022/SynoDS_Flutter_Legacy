@@ -1,13 +1,11 @@
-import 'dart:ffi';
-
 class DownloadTask {
   String? _id;
-  String? _type;
-  String? _username;
-  String? _title;
   String? _size;
   String? _status;
   String? _status_extra;
+  String? _title;
+  String? _type;
+  String? _username;
 
   DownloadTaskDetail? _detail;
   List<DownloadTaskFile> _files = [];
@@ -24,8 +22,8 @@ class DownloadTask {
   getAddiDetail(){return _detail;}
   getAddiFiles(){return _files;}
 
-  addAddiFile(DownloadTaskFile file){this._files.add(file);}
-  setAddiDetail(DownloadTaskDetail detail){this._detail = detail;}
+  addAddiFile(DownloadTaskFile file){_files.add(file);}
+  setAddiDetail(DownloadTaskDetail detail){_detail = detail;}
 }
 
 class DownloadTaskDetail {
