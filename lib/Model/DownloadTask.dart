@@ -32,4 +32,6 @@ class DownloadTaskFile {
   String? _priority;
   String? _size;
   String? _sizeDownloaded;
+
+  DownloadTaskFile(this._filename, this._priority, this._size, this._sizeDownloaded);
 }
