@@ -34,7 +34,7 @@ class DownloadTaskDetail {
   String? _priority;
   String? _uri;
 
-  DownloadTaskDetail(this._connectedLeechers, this._connectedSedders, this._totalPeers, this._create_time, this._destination, this._priority, this._uri);
+  DownloadTaskDetail(this._connectedLeechers, this._connectedSeeders, this._totalPeers, this._createTime, this._destination, this._priority, this._uri);
 
   getConnLeechers(){return _connectedLeechers;}
   getConnSeeders(){return _connectedSeeders;}
