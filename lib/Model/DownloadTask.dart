@@ -27,14 +27,22 @@ class DownloadTask {
 
 class DownloadTaskDetail {
   int? _connectedLeechers;
-  int? _connectedSedders;
+  int? _connectedSeeders;
   int? _totalPeers;
-  String? _create_time;
+  String? _createTime;
   String? _destination;
   String? _priority;
   String? _uri;
 
   DownloadTaskDetail(this._connectedLeechers, this._connectedSedders, this._totalPeers, this._create_time, this._destination, this._priority, this._uri);
+
+  getConnLeechers(){return _connectedLeechers;}
+  getConnSeeders(){return _connectedSeeders;}
+  getTotalPeers(){return _totalPeers;}
+  getCreateTime(){return _createTime;}
+  getDestination(){return _destination;}
+  getPriority(){return _priority;}
+  getUri(){return _uri;}
 }
 
 class DownloadTaskFile {
