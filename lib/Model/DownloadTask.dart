@@ -1,6 +1,8 @@
 import 'dart:ffi';
 
 class DownloadTask {
+  DownloadTask(this._id, this._type, this._username, this._title, this._size, this._status, this._status_extra);
+
   String? _id;
   String? _type;
   String? _username;
@@ -8,6 +10,7 @@ class DownloadTask {
   String? _size;
   String? _status;
   String? _status_extra;
+  
   DownloadTaskDetail? _detail;
   List<DownloadTaskFile>? _file;
 }
