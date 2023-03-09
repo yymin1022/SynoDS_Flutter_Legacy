@@ -10,9 +10,19 @@ class DownloadTask {
   String? _status_extra;
 
   DownloadTaskDetail? _detail;
-  List<DownloadTaskFile>? _file;
+  List<DownloadTaskFile>? _files;
 
   DownloadTask(this._id, this._type, this._username, this._title, this._size, this._status, this._status_extra);
+
+  getId(){return _id;}
+  getType(){return _type;}
+  getUsername(){return _username;}
+  getTitle(){return _title;}
+  getSize(){return _size;}
+  getStatus(){return _status;}
+  getStatusExtra(){return _status_extra;}
+  getAddiDetail(){return _detail;}
+  getAddiFiles(){return _files;}
 }
 
 class DownloadTaskDetail {
