@@ -1,151 +1,226 @@
-import "package:flutter/material.dart";
+import 'package:flutter/material.dart';
+import 'model/task_listview_data.dart';
+import 'routes/connect_page.dart';
+import 'routes/setting_page.dart';
+import 'widget/main_status_widget.dart';
+import 'widget/main_alert_widget.dart';
+import 'widget/task_listview_widget.dart';
 
 void main() {
   runApp(const DSApp());
 }
 
 class DSApp extends StatelessWidget {
-  const DSApp({Key? key}) : super(key: key);
+  const DSApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: "SynoDS",
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
-        home: Scaffold(
-          appBar: AppBar(title: Text("SynoDS"), actions: <Widget>[
-            IconButton(
-              icon: Icon(Icons.settings),
-              tooltip: "Settings",
-              onPressed: () => {},
-            ),
-            IconButton(
-              icon: Icon(Icons.info),
-              tooltip: "Info",
-              onPressed: () => {},
-            )
-          ]),
-          body: SafeArea(
-            child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Container(child: const StatusView()),
-                  Divider(thickness: 1, height: 1, color: Color(0xFFEEEEEE)),
-                  Container(child: const TaskView())
-                ]),
-          ),
-          floatingActionButton: FloatingActionButton.extended(
-            onPressed: () {},
-            label: Text(""),
-            icon: const Icon(Icons.add_rounded),
-            backgroundColor: Colors.blue,
-          ),
-        ));
-  }
-}
-
-class StatusView extends StatefulWidget {
-  const StatusView({Key? key}) : super(key: key);
-
-  @override
-  State<StatusView> createState() => _StatusViewState();
-}
-
-class _StatusViewState extends State<StatusView> {
-  int _download = 0;
-  int _upload = 0;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Container(
-                  height: 100,
-                  width: 160,
-                  margin: EdgeInsets.fromLTRB(20, 20, 10, 20),
-                  decoration: BoxDecoration(
-                      border: Border.all(
-                        color: Color(0xFFDDDDDD),
-                        width: 2,
-                      ),
-                      borderRadius: BorderRadius.circular(10)),
-                  child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Text("$_download", style: TextStyle(fontSize: 35)),
-                        Text("KB/s", style: TextStyle(fontSize: 15))
-                      ])),
-              Container(
-                  height: 100,
-                  width: 160,
-                  margin: EdgeInsets.fromLTRB(10, 20, 20, 20),
-                  decoration: BoxDecoration(
-                      border: Border.all(
-                        color: Color(0xFFDDDDDD),
-                        width: 2,
-                      ),
-                      borderRadius: BorderRadius.circular(10)),
-                  child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Text("$_upload", style: TextStyle(fontSize: 35)),
-                        Text("KB/s", style: TextStyle(fontSize: 15))
-                      ]))
-            ])
-      ],
+      title: 'Synology DS',
+      theme: ThemeData(
+        primarySwatch: Colors.indigo,
+      ),
+      home: const ServerDetailPage(),
     );
   }
 }
 
-class TaskView extends StatefulWidget {
-  const TaskView({Key? key}) : super(key: key);
+class ServerDetailPage extends StatefulWidget {
+  const ServerDetailPage({super.key});
 
   @override
-  State<TaskView> createState() => _TaskViewState();
+  State<ServerDetailPage> createState() => ServerDetailPageState();
 }
 
-class _TaskViewState extends State<TaskView> {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-        width: 350,
-        child: Column(
-          children: <Widget>[
-            TaskViewItem(new TaskData("Test Task 1", "TaskID", 12.5)),
-            TaskViewItem(new TaskData("Test Task 2", "TaskID", 22.3)),
-            TaskViewItem(new TaskData("Test Task 3", "TaskID", 100)),
-            TaskViewItem(new TaskData("Test Task 4", "TaskID", 0.5)),
-          ],
-        ));
+class ServerDetailPageState extends State<ServerDetailPage> {
+  Color bottomColor = Colors.white;
+  bool logined = true;
+  bool alertBool = false;
+  String alertValue = '';
+  List<TaskListData> rawTasks = [
+    TaskListData(
+        title: 'Task 1 (Long Task Name, Long Task Name)',
+        status: 'waiting',
+        taskSize: '1.0 GB',
+        downloadedSize: '0.0 B',
+        progress: 0,
+        uploadSpeed: '0 B/s',
+        downloadSpeed: '0 B/s'
+    ),
+    TaskListData(
+        title: 'Task 2',
+        status: 'downloading',
+        taskSize: '1.0 GB',
+        downloadedSize: '250 MB',
+        progress: 0.25,
+        uploadSpeed: '10 MB/s',
+        downloadSpeed: '10 MB/s'
+    ),
+    TaskListData(
+        title: 'Task 3',
+        status: 'paused',
+        taskSize: '1.0 GB',
+        downloadedSize: '500 MB',
+        progress: 0.5,
+        uploadSpeed: '0 B/s',
+        downloadSpeed: '0 B/s'
+    ),
+    TaskListData(
+        title: 'Task 4',
+        status: 'error',
+        taskSize: '1.0 GB',
+        downloadedSize: '750 MB',
+        progress: 0.75,
+        uploadSpeed: '0 B/s',
+        downloadSpeed: '0 B/s'
+    ),
+    TaskListData(
+        title: 'Task 5',
+        status: 'finished',
+        taskSize: '1.0 GB',
+        downloadedSize: '1.0 GB',
+        progress: 1.0,
+        uploadSpeed: '0 B/s',
+        downloadSpeed: '0 B/s'
+    ),
+  ];
+  int entireUploadSpeed = 10240000;
+  int entireDownloadSpeed = 10240000;
+
+  void showAlert(String val) {
+    setState(() {
+      alertBool = true;
+      alertValue = val;
+    });
   }
-}
 
-class TaskData {
-  double percentage;
-  String title;
-  String taskID;
+  void hideAlert() {
+    setState(() {
+      alertBool = false;
+    });
+  }
 
-  TaskData(this.title, this.taskID, this.percentage);
-}
-
-class TaskViewItem extends StatelessWidget {
-  TaskViewItem(this._task);
-  final TaskData _task;
+  @override
+  void initState() {
+    super.initState();
+    if (!logined) showAlert('연결된 서버가 없습니다.');
+  }
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-        title: Text(_task.title),
-        subtitle: Text("${_task.percentage}%"),
-        trailing: Text("${_task.taskID}"));
+    return Scaffold(
+      backgroundColor: bottomColor,
+      appBar: AppBar(
+        title: const Text('Synology DS'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.key),
+            tooltip: 'Info',
+            onPressed: () async {
+              final result = await Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const LoginPage())
+              );
+              logined = logined ? true : result;
+            },
+          ),
+          IconButton(
+            icon: const Icon(Icons.cleaning_services),
+            tooltip: 'Clean Task',
+            onPressed: () {
+
+            },
+          ),
+          IconButton(
+            icon: const Icon(Icons.add),
+            tooltip: 'Add Task',
+            onPressed: () {
+
+            },
+          ),
+          IconButton(
+            icon: const Icon(Icons.settings),
+            tooltip: 'Settings',
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const SettingPage()
+                  )
+              );
+            },
+          ),
+        ],
+      ),
+      body: SafeArea(
+        child: ColoredBox(
+          color: Colors.white,
+          child: Column(
+            children: [
+              AnimatedSwitcher(
+                duration: const Duration(milliseconds: 100),
+                child: alertBool ? MainAlertWidget(
+                  key: const Key("loading"),
+                  alertValue: alertValue,
+                ) : MainStatusWidget(
+                  key: const Key("normal"),
+                  uploadSpeed: entireUploadSpeed,
+                  downloadSpeed: entireDownloadSpeed,
+                ),
+              ),
+              const Divider(
+                thickness: 2,
+                height: 1,
+                color: Color(0xFFEEEEEE),
+              ),
+              TaskListWidget(rawTasks: rawTasks),
+              const Divider(
+                thickness: 2,
+                height: 1,
+                color: Color(0xFFEEEEEE),
+              ),
+              Row(
+                children: [
+                  Expanded(
+                    child: ColoredBox(
+                      color: bottomColor,
+                      child: Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              children: [
+                                Icon(Icons.circle, size: 12, color: logined ? Colors.green : Colors.red),
+                                const SizedBox(width: 10,),
+                                Text(
+                                    'Server ${logined ? 'Connected' : 'Disconnected'}',
+                                    style: TextStyle(color: logined ? Colors.green : Colors.red, fontWeight: FontWeight.bold)
+                                )
+                              ],
+                            ),
+                            Text('${rawTasks.length} Tasks')
+                          ],
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+      /*
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(bottom: 52),
+        child: FloatingActionButton(
+          onPressed: () => {},
+          tooltip: 'add',
+          child: const Icon(Icons.add),
+        ),
+      ),
+      */
+    );
   }
 }
