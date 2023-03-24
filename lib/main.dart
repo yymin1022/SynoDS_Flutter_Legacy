@@ -1,7 +1,14 @@
+import 'dart:async';
+
+import 'package:filesize/filesize.dart';
 import 'package:flutter/material.dart';
+
 import 'model/task_listview_data.dart';
+import 'model/task_raw.dart';
 import 'routes/connect_page.dart';
 import 'routes/setting_page.dart';
+import 'utils/api_helper.dart';
+import 'utils/session_manager.dart';
 import 'widget/main_status_widget.dart';
 import 'widget/main_alert_widget.dart';
 import 'widget/task_listview_widget.dart';
@@ -33,11 +40,13 @@ class ServerDetailPage extends StatefulWidget {
 }
 
 class ServerDetailPageState extends State<ServerDetailPage> {
+  SessionManager serverManager = SessionManager();
   Color bottomColor = Colors.white;
-  bool logined = true;
+  bool logined = false;
   bool alertBool = false;
   String alertValue = '';
   List<TaskListData> rawTasks = [
+    /* DUMMY DATA
     TaskListData(
         title: 'Task 1 (Long Task Name, Long Task Name)',
         status: 'waiting',
@@ -83,9 +92,10 @@ class ServerDetailPageState extends State<ServerDetailPage> {
         uploadSpeed: '0 B/s',
         downloadSpeed: '0 B/s'
     ),
+    */
   ];
-  int entireUploadSpeed = 10240000;
-  int entireDownloadSpeed = 10240000;
+  int entireUploadSpeed = 0;
+  int entireDownloadSpeed = 0;
 
   void showAlert(String val) {
     setState(() {
@@ -104,6 +114,54 @@ class ServerDetailPageState extends State<ServerDetailPage> {
   void initState() {
     super.initState();
     if (!logined) showAlert('연결된 서버가 없습니다.');
+    Timer.periodic(const Duration(seconds: 2), (timer) async {
+      print('로그인 여부 : $logined');
+      if (logined) {
+        hideAlert();
+        final result = await requestAPI(serverManager.getURL(), 'SYNO.DownloadStation.Task', {
+          'method': 'list',
+          'additional': 'detail,transfer',
+          '_sid': serverManager.getSid()
+        });
+        var mTask = TaskRaw.fromJson(result['payload']);
+        if (mTask.data != null) {
+          rawTasks.clear();
+          entireUploadSpeed = 0;
+          entireDownloadSpeed = 0;
+          for (var eTask in mTask.data!.tasks!) {
+            final taskSize = eTask.size!;
+            final downloadedSize = eTask.additional!.transfer!.sizeDownloaded!;
+            final rawProgress = downloadedSize / taskSize;
+            late double progress;
+            if (rawProgress.isInfinite || rawProgress.isNaN) {
+              progress = 0;
+            } else {
+              progress = rawProgress;
+            }
+            final uploadSpeed = eTask.additional!.transfer!.speedUpload!;
+            final downloadSpeed = eTask.additional!.transfer!.speedDownload!;
+            entireUploadSpeed += uploadSpeed;
+            entireDownloadSpeed += downloadSpeed;
+            rawTasks.add(TaskListData(
+                title: eTask.title!,
+                status: eTask.status!,
+                taskSize: filesize(taskSize),
+                downloadedSize: filesize(downloadedSize),
+                progress: progress,
+                uploadSpeed: '${filesize(uploadSpeed)}/s',
+                downloadSpeed: '${filesize(downloadSpeed)}/s'
+            ));
+          }
+          setState(() {
+            rawTasks;
+            entireUploadSpeed;
+            entireDownloadSpeed;
+          });
+        }
+      } else {
+        showAlert('연결된 서버가 없습니다.');
+      }
+    });
   }
 
   @override
