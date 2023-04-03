@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:filesize/filesize.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'model/task_listview_data.dart';
 import 'model/task_raw.dart';
@@ -118,7 +120,7 @@ class ServerDetailPageState extends State<ServerDetailPage> {
       print('로그인 여부 : $logined');
       if (logined) {
         hideAlert();
-        final result = await requestAPI(serverManager.getURL(), 'SYNO.DownloadStation.Task', {
+        final result = await requestAPI('https://${serverManager.getURL()}', 'SYNO.DownloadStation.Task', {
           'method': 'list',
           'additional': 'detail,transfer',
           '_sid': serverManager.getSid()
@@ -162,6 +164,33 @@ class ServerDetailPageState extends State<ServerDetailPage> {
         showAlert('연결된 서버가 없습니다.');
       }
     });
+    directConnect();
+  }
+
+  void directConnect() async {
+    final prefs = await SharedPreferences.getInstance();
+    const storage = FlutterSecureStorage();
+    var a = prefs.getBool('auto_login');
+    var b = prefs.getBool('require_otp');
+    var c = prefs.getString('server_url');
+    var d = await storage.read(key: 'server_id');
+    var e = await storage.read(key: 'server_pw');
+    if (a ?? false) {
+      if (b != null) {
+        if (b == false) {
+          if (!mounted) return;
+          final result = await Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => LoginPage(initStatus: {
+                'url': c,
+                'id': d,
+                'pw': e
+              }))
+          );
+          logined = logined ? true : result;
+        }
+      }
+    }
   }
 
   @override
