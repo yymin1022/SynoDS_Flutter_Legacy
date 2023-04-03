@@ -1,36 +1,43 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:syno_downlaodstation/utils/api_helper.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+  const LoginPage({super.key, this.initStatus});
+  final Map? initStatus;
 
   @override
   State<LoginPage> createState() => LoginPageState();
 }
 
 class LoginPageState extends State<LoginPage> {
+  // 입력 컴포넌트 포커스 제어를 위한 노드
   late FocusNode urlFocusNode;
   late FocusNode idFocusNode;
   late FocusNode pwFocusNode;
   late FocusNode otpFocusNode;
 
+  // TextField Value
   String url = "";
   String idValue = "";
   String pwValue = "";
   String otpValue = "";
 
-  bool apiAuthExist = false;
-  bool dsInfoExist = false;
-  bool dsTaskExist = false;
-  bool dsStatisticExist = false;
+  // TextField Controller
+  TextEditingController urlStrController = TextEditingController(text: "");
+  TextEditingController idStrController = TextEditingController(text: "");
+  TextEditingController pwStrController = TextEditingController(text: "");
 
+  // 연결 시 유효한 연결정보를 담을 변수
   Map? tempAPIList;
   final Map<String, String> tempSession = {
     'account': '',
     'sid': ''
   };
 
+  // 자동로그인 여부
   bool autoLogin = false;
 
   static const Map<int, String> errorType = {
@@ -46,15 +53,13 @@ class LoginPageState extends State<LoginPage> {
   Future<bool> fetchAPITask() async {
     tempAPIList = null;
     if (apiExist('SYNO.API.Info')) {
-      Map result = await requestAPI(url, 'SYNO.API.Info', {
+      Map result = await requestAPI('https://$url', 'SYNO.API.Info', {
         'method': 'query',
         'query': 'SYNO.API.Auth,SYNO.DownloadStation.Info,SYNO.DownloadStation.Task,SYNO.DownloadStation.Statistic'
       });
       if (result['req_success']) {
         if (result['payload']['success']) {
-          // on Synology Success Bool
           if (apiUsable(result['payload']['data'])) {
-            // All Ok
             tempAPIList = result['payload']['data'];
             return true;
           }
@@ -66,7 +71,7 @@ class LoginPageState extends State<LoginPage> {
 
   Future<int> loginTask() async {
     if (tempAPIList!['SYNO.API.Auth'] == null) return -1;
-    Map result = await requestAPITest(url, 'SYNO.API.Auth', tempAPIList!['SYNO.API.Auth'], {
+    Map result = await requestAPITest('https://$url', 'SYNO.API.Auth', tempAPIList!['SYNO.API.Auth'], {
       'method': 'login',
       'account': idValue,
       'passwd': pwValue,
@@ -74,11 +79,9 @@ class LoginPageState extends State<LoginPage> {
       'format': 'sid',
       if (otpValue.toString() != '') 'otp_code': otpValue
     });
-    print(result);
     if (result['req_success']) {
       final payload = result['payload'];
       if (result['payload']['success']) {
-        // on Synology Success Bool
         tempSession['sid'] = payload['data']['sid'];
         tempSession['account'] = payload['data']['account'];
         return 0;
@@ -89,14 +92,12 @@ class LoginPageState extends State<LoginPage> {
     return -1;
   }
 
-  Future<int> _fetchData(BuildContext context, [bool mounted = true]) async {
-    // show the loading dialog
+  Future<int> _fetchData(BuildContext context) async {
     showDialog(
         barrierDismissible: false,
         context: context,
         builder: (_) {
           return Dialog(
-            // The background color
             backgroundColor: Colors.white,
             child: Padding(
               padding: const EdgeInsets.fromLTRB(0, 24, 0, 16),
@@ -115,10 +116,9 @@ class LoginPageState extends State<LoginPage> {
 
     Future<int> task() async {
       if (await fetchAPITask()) {
-        // OK API
+        // API OK
         int loginCode = await loginTask();
         if (loginCode == 0) {
-          print('ALL OK');
           return 0;
         } else {
           return loginCode;
@@ -143,12 +143,71 @@ class LoginPageState extends State<LoginPage> {
     idFocusNode = FocusNode();
     pwFocusNode = FocusNode();
     otpFocusNode = FocusNode();
+    if (widget.initStatus != null) {
+      url = widget.initStatus?['url'];
+      idValue = widget.initStatus?['id'];
+      pwValue = widget.initStatus?['pw'];
+      autoLogin = true;
+      urlStrController.text = url;
+      idStrController.text = idValue;
+      pwStrController.text = pwValue;
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _fetchData(context).then(loginProcess);
+      });
+    }
   }
 
   @override
   void dispose() {
     urlFocusNode.dispose();
     super.dispose();
+  }
+
+  void loginProcess(int loginCode) async {
+    if (loginCode == 0) {
+      setAPIList(tempAPIList!);
+      serverManager.setSessionInfo(tempSession['account']!, 'kk', tempSession['sid']!);
+      serverManager.setLogin(true);
+      serverManager.setURL(url);
+
+      // ALL OK
+      final prefs = await SharedPreferences.getInstance();
+      const storage = FlutterSecureStorage();
+      await prefs.setBool('auto_login', autoLogin);
+      await prefs.setBool('require_otp', otpValue != '');
+      await prefs.setString('server_url', url);
+      await storage.write(key: 'server_id', value: idValue);
+      await storage.write(key: 'server_pw', value: pwValue);
+
+      if (!mounted) return;
+      Navigator.of(context).pop(true);
+    } else {
+      serverManager.setLogin(false);
+      showDialog<void>(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Error'),
+            content: SingleChildScrollView(
+              child: ListBody(
+                children: <Widget>[
+                  Text(errorType[loginCode] ?? 'Unknown Error'),
+                ],
+              ),
+            ),
+            actions: <Widget>[
+              TextButton(
+                child: const Text('OK'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
   }
 
   @override
@@ -178,7 +237,6 @@ class LoginPageState extends State<LoginPage> {
                           Container(
                             padding: const EdgeInsets.fromLTRB(12, 12, 12, 0),
                             child: Card(
-                              // clipBehavior: Clip.antiAlias,
                               elevation: 2,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -196,6 +254,7 @@ class LoginPageState extends State<LoginPage> {
                                         const SizedBox(width: 20,),
                                         Expanded(
                                           child: TextField(
+                                            controller: urlStrController,
                                             style: const TextStyle(fontSize: 16),
                                             decoration: const InputDecoration(
                                               prefixText: 'https://',
@@ -206,7 +265,7 @@ class LoginPageState extends State<LoginPage> {
                                             ),
                                             focusNode: urlFocusNode,
                                             onChanged: (value) => {
-                                              url = 'https://$value'
+                                              url = value
                                             },
                                           ),
                                         ),
@@ -220,7 +279,6 @@ class LoginPageState extends State<LoginPage> {
                           Container(
                             padding: const EdgeInsets.fromLTRB(12, 12, 12, 0),
                             child: Card(
-                              // clipBehavior: Clip.antiAlias,
                               elevation: 2,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -235,6 +293,7 @@ class LoginPageState extends State<LoginPage> {
                                     child: Column(
                                       children: [
                                         TextField(
+                                          controller: idStrController,
                                           style: const TextStyle(fontSize: 16),
                                           decoration: const InputDecoration(
                                             contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 12),
@@ -250,6 +309,7 @@ class LoginPageState extends State<LoginPage> {
                                         Padding(
                                           padding: const EdgeInsets.only(top: 24),
                                           child: TextField(
+                                            controller: pwStrController,
                                             obscureText: true,
                                             style: const TextStyle(fontSize: 16),
                                             decoration: const InputDecoration(
@@ -276,27 +336,35 @@ class LoginPageState extends State<LoginPage> {
                                               labelText: 'OTP (Optional)',
                                             ),
                                             focusNode: otpFocusNode,
-                                            onChanged: (value) => {
-                                              otpValue = value
+                                            onChanged: (value) {
+                                              setState(() {
+                                                otpValue = value;
+                                                if (otpValue != '') autoLogin = false;
+                                              });
                                             },
                                           ),
                                         ),
                                       ],
                                     ),
                                   ),
+                                  const Padding(
+                                    padding: EdgeInsets.fromLTRB(20, 8, 20, 0),
+                                    child: Text('자동로그인은 OTP 사용시 비활성화됩니다', style: TextStyle(color: Colors.red),),
+                                  ),
+
                                   Padding(
-                                    padding: const EdgeInsets.fromLTRB(20, 4, 20, 8),
+                                    padding: const EdgeInsets.fromLTRB(20, 0, 20, 8),
                                     child: Row(
                                       children: [
                                         const Text('Auto Login', style: TextStyle(fontSize: 16),),
                                         Switch(
                                           value: autoLogin,
                                           activeColor: Colors.red,
-                                          onChanged: (bool value) {
+                                          onChanged: otpValue == '' ? (bool value) {
                                             setState(() {
                                               autoLogin = value;
                                             });
-                                          },
+                                          } : null,
                                         )
                                       ],
                                     ),
@@ -309,48 +377,28 @@ class LoginPageState extends State<LoginPage> {
                             padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
                             child: ElevatedButton(
                               onPressed: () {
-                                _fetchData(context).then((loginCode) {
-                                  print(loginCode);
-                                  if (loginCode == 0) {
-                                    print(tempAPIList);
-                                    print(tempSession);
-                                    setAPIList(tempAPIList!);
-                                    serverManager.setSessionInfo(tempSession['account']!, 'kk', tempSession['sid']!);
-                                    serverManager.setLogin(true);
-                                    serverManager.setURL(url);
-                                    Navigator.of(context).pop(true);
-                                  } else {
-                                    serverManager.setLogin(false);
-                                    showDialog<void>(
-                                      context: context,
-                                      barrierDismissible: false, // user must tap button!
-                                      builder: (BuildContext context) {
-                                        return AlertDialog(
-                                          title: const Text('Error'),
-                                          content: SingleChildScrollView(
-                                            child: ListBody(
-                                              children: <Widget>[
-                                                Text(errorType[loginCode] ?? 'Unknown Error'),
-                                              ],
-                                            ),
-                                          ),
-                                          actions: <Widget>[
-                                            TextButton(
-                                              child: const Text('OK'),
-                                              onPressed: () {
-                                                Navigator.of(context).pop();
-                                              },
-                                            ),
-                                          ],
-                                        );
-                                      },
-                                    );
-                                  }
-                                });
+                                _fetchData(context).then(loginProcess);
                               },
                               child: const Text('Connect')
                             ),
                           ),
+                          Padding(
+                            padding: EdgeInsets.fromLTRB(16, 4, 16, 8),
+                            child: ElevatedButton(
+                              onPressed: () async {
+                                /*
+                                final prefs = await SharedPreferences.getInstance();
+                                const storage = FlutterSecureStorage();
+                                var a = prefs.getBool('auto_login');
+                                var b = prefs.getBool('require_otp');
+                                var c = prefs.getString('server_url');
+                                var d = await storage.read(key: 'server_id');
+                                var e = await storage.read(key: 'server_pw');
+                                */
+                              },
+                              child: const Text('Debug'),
+                            ),
+                          )
                         ],
                       ),
                     )
