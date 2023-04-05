@@ -1,6 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.syno_ds">
-   <application
+
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+
+    <application
         android:label="syno_ds"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
