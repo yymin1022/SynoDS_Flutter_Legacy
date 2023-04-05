@@ -38,6 +38,7 @@ dependencies:
   filesize: ^2.0.1
   shared_preferences: ^2.0.20
   flutter_secure_storage: ^8.0.0
+  permission_handler: ^10.2.0
 
 dev_dependencies:
   flutter_test:
