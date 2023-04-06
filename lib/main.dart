@@ -47,55 +47,7 @@ class ServerDetailPageState extends State<ServerDetailPage> {
   bool logined = false;
   bool alertBool = false;
   String alertValue = '';
-  List<TaskListData> rawTasks = [
-    /* DUMMY DATA
-    TaskListData(
-        title: 'Task 1 (Long Task Name, Long Task Name)',
-        status: 'waiting',
-        taskSize: '1.0 GB',
-        downloadedSize: '0.0 B',
-        progress: 0,
-        uploadSpeed: '0 B/s',
-        downloadSpeed: '0 B/s'
-    ),
-    TaskListData(
-        title: 'Task 2',
-        status: 'downloading',
-        taskSize: '1.0 GB',
-        downloadedSize: '250 MB',
-        progress: 0.25,
-        uploadSpeed: '10 MB/s',
-        downloadSpeed: '10 MB/s'
-    ),
-    TaskListData(
-        title: 'Task 3',
-        status: 'paused',
-        taskSize: '1.0 GB',
-        downloadedSize: '500 MB',
-        progress: 0.5,
-        uploadSpeed: '0 B/s',
-        downloadSpeed: '0 B/s'
-    ),
-    TaskListData(
-        title: 'Task 4',
-        status: 'error',
-        taskSize: '1.0 GB',
-        downloadedSize: '750 MB',
-        progress: 0.75,
-        uploadSpeed: '0 B/s',
-        downloadSpeed: '0 B/s'
-    ),
-    TaskListData(
-        title: 'Task 5',
-        status: 'finished',
-        taskSize: '1.0 GB',
-        downloadedSize: '1.0 GB',
-        progress: 1.0,
-        uploadSpeed: '0 B/s',
-        downloadSpeed: '0 B/s'
-    ),
-    */
-  ];
+  List<TaskListData> rawTasks = [];
   int entireUploadSpeed = 0;
   int entireDownloadSpeed = 0;
 
