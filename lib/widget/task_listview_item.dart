@@ -47,7 +47,9 @@ class TaskListItem extends StatelessWidget {
                 );
                 Widget optClose = SimpleDialogOption(
                   child: const Text("닫기"),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pop(context, true);
+                  },
                 );
 
                 SimpleDialog dialog = SimpleDialog(
