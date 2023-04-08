@@ -97,6 +97,7 @@ class ServerDetailPageState extends State<ServerDetailPage> {
             entireUploadSpeed += uploadSpeed;
             entireDownloadSpeed += downloadSpeed;
             rawTasks.add(TaskListData(
+                id: eTask.id!,
                 title: eTask.title!,
                 status: eTask.status!,
                 taskSize: filesize(taskSize),

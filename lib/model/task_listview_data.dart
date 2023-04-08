@@ -1,4 +1,5 @@
 class TaskListData {
+  String id;
   String title;
   String status;
   String taskSize;
@@ -8,6 +9,7 @@ class TaskListData {
   String downloadSpeed;
 
   TaskListData({
+    required this.id,
     required this.title,
     required this.status,
     required this.taskSize,
