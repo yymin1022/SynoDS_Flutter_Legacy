@@ -59,10 +59,6 @@ class TaskListItem extends StatelessWidget {
                         });
                   },
                 );
-                Widget optStop = SimpleDialogOption(
-                  child: const Text("중단하기"),
-                  onPressed: () {},
-                );
                 Widget optDelete = SimpleDialogOption(
                   child: const Text("작업 삭제하기"),
                   onPressed: () async {
@@ -85,7 +81,6 @@ class TaskListItem extends StatelessWidget {
                   children: <Widget>[
                     optResume,
                     optPause,
-                    optStop,
                     optDelete,
                     optClose
                   ],
