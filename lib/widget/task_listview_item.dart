@@ -32,7 +32,41 @@ class TaskListItem extends StatelessWidget {
             clipBehavior: Clip.antiAlias,
             elevation: 4,
             child: InkWell(
-              onTap: () {},
+              onTap: () {
+                Widget optResume = SimpleDialogOption(
+                  child: const Text("이어받기 / 일시정지"),
+                  onPressed: () {},
+                );
+                Widget optStop = SimpleDialogOption(
+                  child: const Text("중단하기"),
+                  onPressed: () {},
+                );
+                Widget optDelete = SimpleDialogOption(
+                  child: const Text("작업 삭제하기"),
+                  onPressed: () {},
+                );
+                Widget optClose = SimpleDialogOption(
+                  child: const Text("닫기"),
+                  onPressed: () {},
+                );
+
+                SimpleDialog dialog = SimpleDialog(
+                  title: Text(task.title),
+                  children: <Widget>[
+                    optResume,
+                    optStop,
+                    optDelete,
+                    optClose
+                  ],
+                );
+
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return dialog;
+                  },
+                );
+              },
               child: Padding(
                 padding: const EdgeInsets.all(16),
                 child: Column(
