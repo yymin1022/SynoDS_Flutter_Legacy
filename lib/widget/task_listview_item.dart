@@ -1,5 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:syno_downlaodstation/model/task_listview_data.dart';
+
+import '../utils/api_helper.dart';
 
 class TaskListItem extends StatelessWidget {
   final TaskListData task;
@@ -43,7 +47,13 @@ class TaskListItem extends StatelessWidget {
                 );
                 Widget optDelete = SimpleDialogOption(
                   child: const Text("작업 삭제하기"),
-                  onPressed: () {},
+                  onPressed: () async {
+                    await requestAPI('https://${serverManager.getURL()}', 'SYNO.DownloadStation.Task', {
+                      'method': 'delete',
+                      'id': task.id,
+                      '_sid': serverManager.getSid()
+                    });
+                  },
                 );
                 Widget optClose = SimpleDialogOption(
                   child: const Text("닫기"),
