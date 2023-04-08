@@ -38,8 +38,15 @@ class TaskListItem extends StatelessWidget {
             child: InkWell(
               onTap: () {
                 Widget optResume = SimpleDialogOption(
-                  child: const Text("이어받기 / 일시정지"),
-                  onPressed: () {},
+                  child: const Text("이어받기"),
+                  onPressed: () async {
+                    await requestAPI('https://${serverManager.getURL()}',
+                      'SYNO.DownloadStation.Task', {
+                      'method': 'resume',
+                      'id': task.id,
+                      '_sid': serverManager.getSid()
+                    });
+                  },
                 );
                 Widget optStop = SimpleDialogOption(
                   child: const Text("중단하기"),
