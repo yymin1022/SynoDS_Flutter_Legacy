@@ -48,6 +48,17 @@ class TaskListItem extends StatelessWidget {
                     });
                   },
                 );
+                Widget optPause = SimpleDialogOption(
+                  child: const Text("일시중단"),
+                  onPressed: () async {
+                    await requestAPI('https://${serverManager.getURL()}',
+                        'SYNO.DownloadStation.Task', {
+                          'method': 'pause',
+                          'id': task.id,
+                          '_sid': serverManager.getSid()
+                        });
+                  },
+                );
                 Widget optStop = SimpleDialogOption(
                   child: const Text("중단하기"),
                   onPressed: () {},
@@ -73,6 +84,7 @@ class TaskListItem extends StatelessWidget {
                   title: Text(task.title),
                   children: <Widget>[
                     optResume,
+                    optPause,
                     optStop,
                     optDelete,
                     optClose
