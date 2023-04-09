@@ -101,6 +101,43 @@ Future<Map> requestAPITest(String url, String apiName, Map apiParam, Map param) 
 }
 
 /*
+요약 : 매개변수로 받은 API 데이터를 기반으로 API를 호출하는 함수
+매개변수 : base url, 호출할 API 이름, 호출할 API 데이터, 전달할 매개변수
+ */
+Future<Map> requestFileUploadAPI(String url, String apiName, Map param, String fileName, String filePath) async {
+  Map api = getAPI(apiName);
+  int maxVersionValue = api['maxVersion'];
+  String pathValue = api['path'];
+  print('API 요청 : $url/webapi/$pathValue');
+  final mUrl = Uri.parse('$url/webapi/$pathValue');
+  try {
+    // final request = await http.MultipartRequest("POST", mUrl);
+    // request.fields["api"] = apiName;
+    // request.fields["version"] = maxVersionValue.toString();
+    // param.forEach((key, value) {
+    //   request.fields[key] = value;
+    // });
+    // request.files.add(await http.MultipartFile.fromPath(fileName, filePath));
+    // final response = await http.Response.fromStream(await request.send());
+    final response = await http.post(mUrl, body: {
+      'api': apiName,
+      'version': maxVersionValue.toString(),
+      ...param
+    });
+    return {
+      'req_success': true,
+      'code': response.statusCode,
+      'payload': jsonDecode(response.body)
+    };
+  } catch(err) {
+    return {
+      'req_success': false,
+      'reason': err
+    };
+  }
+}
+
+/*
 요약 : 서비스에서 요구하는 API의 사용가능여부를 판단하는 함수
 매개변수 : API 맵(Nullable)
  */

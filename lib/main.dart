@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:filesize/filesize.dart';
@@ -178,8 +179,18 @@ class ServerDetailPageState extends State<ServerDetailPage> {
             onPressed: () async {
               FilePickerResult? result = await FilePicker.platform.pickFiles();
               if(result != null && result.files.isNotEmpty){
-                String fileName = result.files.first.name;
-                print(fileName);
+                File fileData = File(result.files.first.path!);
+
+                final response = await requestFileUploadAPI('https://${serverManager.getURL()}',
+                  'SYNO.DownloadStation.Task', {
+                    'method': 'create',
+                    '_sid': serverManager.getSid(),
+                    'file': [await fileData.readAsBytes()].toString()
+                  },
+                  result.files.first.name,
+                  fileData.path
+                );
+                print(response);
               }
             },
           ),
