@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:file_picker/file_picker.dart';
 import 'package:filesize/filesize.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -174,8 +175,12 @@ class ServerDetailPageState extends State<ServerDetailPage> {
           IconButton(
             icon: const Icon(Icons.add),
             tooltip: 'Add Task',
-            onPressed: () {
-
+            onPressed: () async {
+              FilePickerResult? result = await FilePicker.platform.pickFiles();
+              if(result != null && result.files.isNotEmpty){
+                String fileName = result.files.first.name;
+                print(fileName);
+              }
             },
           ),
           IconButton(
